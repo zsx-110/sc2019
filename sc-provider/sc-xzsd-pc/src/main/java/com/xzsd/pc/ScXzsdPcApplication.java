@@ -26,6 +26,7 @@ import javax.annotation.Resource;
 @MapperScan("com.xzsd.pc")
 @EnableRedisHttpSession
 public class ScXzsdPcApplication {
+
     @Resource
     private StringRedisTemplate template;
 
