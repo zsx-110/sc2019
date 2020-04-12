@@ -30,6 +30,7 @@ public class ScXzsdPcApplication {
     @Resource
     private StringRedisTemplate template;
 
+
     public static void main(String[] args) {
         SpringApplication.run(ScXzsdPcApplication.class, args);
     }
