@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.pc.menu.dao.MenuDao">
+
+
+    <!--新增菜单-->
+    <insert id="addMenu" parameterType="com.xzsd.pc.menu.entity.MenuInfo">
+        insert into t_sys_menu
+        (menu_code,
+         menu_name,
+         menu_route,
+         remarks,
+         is_delete,
+         create_time,
+         create_user,
+         modified_time,
+         modified_user,
+         version)
+        values
+           (#{menuCode},
+            #{menuName},
+            #{menuRoute},
+            #{Remarks},
+            #{isDeleted},
+            now(),
+            #{createBy},
+            now(),
+            #{lastModifiedBy},
+            0)
+    </insert>
+
+    <!--删除菜单-->
+    <update id="deleteMenu" parameterType="com.xzsd.pc.menu.entity.MenuInfo">
+        update t_sys_menu
+        set
+        is_deleted = 1,
+        gmt_modified = now(),
+        last_modified_by = #{menuId},
+        version = version + 1
+        where menu_code in
+        <foreach item="menuCode" index="index" collection="listCode" open="(" separator="," close=")">
+            #{menuCode}
+        </foreach>
+    </update>
+
+    <!--修改菜单信息-->
+    <update id="updateMenu" parameterType="com.xzsd.pc.menu.entity.MenuInfo">
+        update t_sys_menu
+        set
+            menu_name = #{menuName},
+            menu_route = #{menuRoute},
+            remarks = #{Remarks},
+            gmt_modified = now(),
+            last_modified_by = #{lastModifiedBy},
+            version = version + 1
+        where menu_code = #{menuCode}
+          and version = #{version}
+    </update>
+
+    <!--获取菜单信息-->
+    <select id="getMenuByMenuCode" parameterType="java.lang.String" resultType="com.xzsd.pc.menu.entity.MenuInfo">
+        select
+            menu_code menuCode,
+            menu_name menuName,
+            menu_route menuRoute,
+            remarks Remarks,
+            version
+        from t_sys_menu
+        where menu_code = #{menuCode}
+        and is_deleted = 0
+    </select>
+
+</mapper>
