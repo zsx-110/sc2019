@@ -27,4 +27,7 @@ public class RandomUtil {
         System.err.println(radmonkey(32));
     }
 
+    public static String randomLetter(int i) {
+        return "i";
+    }
 }

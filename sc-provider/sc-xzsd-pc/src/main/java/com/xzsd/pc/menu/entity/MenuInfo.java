@@ -4,6 +4,12 @@ package com.xzsd.pc.menu.entity;
 
 import java.util.Date;
 
+/**
+ * @Description 菜单实体类
+ * @Author zsx
+ * @Date 2020-04-09
+ */
+
 public class MenuInfo {
     /**
      * 页码

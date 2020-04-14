@@ -16,7 +16,7 @@ import javax.annotation.Resource;
 /**
  * @Description menu增删改查
  * @Author zsx
- * @Date 2020-03-25
+ * @Date 2020-04-09
  */
 @RestController
 @RequestMapping("/menu")
@@ -32,7 +32,7 @@ public class MenuController {
      * @param menuInfo
      * @return AppResponse
      * @author zsx
-     * @Date 2020-03-21
+     * @Date 2020-04-09
      */
     @PostMapping("addMenu")
     public AppResponse addMenu(MenuInfo menuInfo) {
@@ -55,7 +55,7 @@ public class MenuController {
      * @param menuCode
      * @return AppResponse
      * @author zsx
-     * @Date 2020-03-21
+     * @Date 2020-04-09
      */
     @PostMapping("deleteMenu")
     public AppResponse deleteMenu(String menuCode) {
@@ -71,11 +71,11 @@ public class MenuController {
     }
 
     /**
-     * 修改用户
+     * 修改菜单
      * @param menuInfo
      * @return AppResponse
      * @author zsx
-     * @Date 2020-03-21
+     * @Date 2020-04-09
      */
     @PostMapping("updateMenu")
     public AppResponse updateMenu(MenuInfo menuInfo) {
@@ -97,7 +97,7 @@ public class MenuController {
      * @param menuCode
      * @return AppResponse
      * @author zsx
-     * @Date 2020-03-21
+     * @Date 2020-04-09
      */
     @RequestMapping(value = "getMenuByMenuCode")
     public AppResponse getMenuByMenuCode(String menuCode) {

@@ -13,7 +13,7 @@ import java.util.List;
 /**
  * @DescriptionDemo 实现类
  * @Author zsx
- * @Date 2020-03-21
+ * @Date 2020-04-09
  */
 @Service
 public class MenuService {
@@ -27,7 +27,7 @@ public class MenuService {
      * @param menuInfo
      * @return
      * @Author zsx
-     * @Date 2020-03-21
+     * @Date 2020-04-09
      */
     @Transactional(rollbackFor = Exception.class)
     public AppResponse addMenu(MenuInfo menuInfo) {
@@ -48,7 +48,7 @@ public class MenuService {
      * @param menuId
      * @return
      * @Author zsx
-     * @Date 2020-03-21
+     * @Date 2020-04-09
      */
     @Transactional(rollbackFor = Exception.class)
     public AppResponse deleteMenu(String menuCode, String menuId) {
@@ -67,12 +67,12 @@ public class MenuService {
      * @param menuInfo
      * @return
      * @Author zsx
-     * @Date 2020-03-21
+     * @Date 2020-04-09
      */
     @Transactional(rollbackFor = Exception.class)
     public AppResponse updateMenu(MenuInfo menuInfo) {
         AppResponse appResponse = AppResponse.success("修改成功");
-        // 修改用户信息
+        // 修改菜单信息
         int count = menuDao.updateMenu(menuInfo);
         if (0 == count) {
             appResponse = AppResponse.versionError("数据有变化，请刷新！");
@@ -88,7 +88,7 @@ public class MenuService {
      * @param menuCode
      * @return
      * @Author zsx
-     * @Date 2020-03-21
+     * @Date 2020-04-09
      */
     public AppResponse getMenuByMenuCode(String menuCode) {
         MenuInfo userInfo = menuDao.getMenuByMenuCode(menuCode);
