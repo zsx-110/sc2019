@@ -3,7 +3,6 @@ package com.xzsd.pc.goods.controller;
 
 import com.neusoft.core.restful.AppResponse;
 import com.neusoft.security.client.utils.SecurityUtils;
-import com.xzsd.pc.util.AuthUtils;
 import com.xzsd.pc.goods.entity.GoodsInfo;
 import com.xzsd.pc.goods.service.GoodsService;
 import org.slf4j.Logger;
@@ -39,9 +38,9 @@ public class GoodsController {
     @PostMapping("addGoods")
     public com.neusoft.core.restful.AppResponse addGoods(GoodsInfo goodsInfo){
         try {
-            //获取商品id
-            String goodsId = AuthUtils.getCurrentGoodsId();
-            goodsInfo.setCreateBy(goodsId);
+            //获取用户id
+            String userId = SecurityUtils.getCurrentUserId();
+            goodsInfo.setCreateUser(userId);
             return goodsService.addGoods(goodsInfo);
         }catch (Exception e){
             logger.error("新增商品失败", e);
@@ -96,9 +95,9 @@ public class GoodsController {
     @PostMapping("updateGoods")
     public com.neusoft.core.restful.AppResponse updateGoodsInfo(GoodsInfo goodsInfo){
         try {
-            //获取商品id
-            String goodsId = AuthUtils.getCurrentGoodsId();
-            goodsInfo.setUpdateUser(goodsId);
+            //获取用户id
+            String userId = SecurityUtils.getCurrentUserId();
+            goodsInfo.setCreateUser(userId);
             return goodsService.updateGoodsInfo(goodsInfo);
         }catch (Exception e){
             logger.error("更新商品失败");

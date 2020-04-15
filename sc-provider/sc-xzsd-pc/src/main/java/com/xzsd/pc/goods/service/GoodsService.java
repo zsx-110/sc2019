@@ -35,7 +35,7 @@ public class GoodsService {
      * @param goodsInfo
      * @return
      * @Author zsx
-     * @Date 2020-04-14
+     * @Date 2020-04-13
      */
     @Transactional(rollbackFor = Exception.class)
     public com.neusoft.core.restful.AppResponse addGoods(GoodsInfo goodsInfo){

@@ -109,7 +109,7 @@ public class GoodsInfo {
     /**
      * 创建者
      */
-    private String createBy;
+    private String createUser;
     /**
      * 创建时间
      */
@@ -319,12 +319,12 @@ public class GoodsInfo {
         this.isDelete = isDelete;
     }
 
-    public String getCreateBy() {
-        return createBy;
+    public String getCreateUser() {
+        return createUser;
     }
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
     }
 
     public String getCreateTime() {

@@ -1,7 +1,7 @@
 package com.xzsd.pc.category.controller;
 
 import com.neusoft.core.restful.AppResponse;
-import com.xzsd.pc.util.AuthUtils;
+import com.neusoft.security.client.utils.SecurityUtils;
 import com.xzsd.pc.category.entity.GoodsCategory;
 import com.xzsd.pc.category.service.CategoryService;
 import org.slf4j.Logger;
@@ -36,9 +36,9 @@ public class CategoryController {
     @PostMapping("addGoodsClassify")
     public AppResponse addGoodsCategory(GoodsCategory goodsCategory){
         try {
-            //获取商品id
-            String goodsId = AuthUtils.getCurrentGoodsId();
-            return categoryService.addGoodsCategory(goodsCategory, goodsId);
+            //获取用户id
+            String userId = SecurityUtils.getCurrentUserId();
+            return categoryService.addGoodsCategory(goodsCategory, userId);
         }catch (Exception e){
             logger.error("新增失败", e);
             System.out.println(e.toString());
@@ -74,9 +74,9 @@ public class CategoryController {
     @PostMapping("updateGoodsClassify")
     public AppResponse updateGoodsCategoryById(GoodsCategory goodsCategory){
         try {
-            //获取商品id
-            String goodsId = AuthUtils.getCurrentGoodsId();
-            return categoryService.updateGoodsCategoryById(goodsCategory, goodsId);
+            //获取用户id
+            String userId = SecurityUtils.getCurrentUserId();
+            return categoryService.updateGoodsCategoryById(goodsCategory, userId);
         }catch (Exception e){
             logger.error("修改成功", e);
             System.out.println(e.toString());
@@ -111,9 +111,9 @@ public class CategoryController {
     @PostMapping("deleteGoodsClassify")
     public AppResponse deleteGoodsCategory(String classifyId) {
         try {
-            //获取商品id
-            String goodsId = AuthUtils.getCurrentGoodsId();
-            return categoryService.deleteGoodsCategory(classifyId, goodsId);
+            //获取用户id
+            String userId = SecurityUtils.getCurrentUserId();
+            return categoryService.deleteGoodsCategory(classifyId, userId);
         } catch (Exception e) {
             logger.error("删除失败", e);
             System.out.println(e.toString());

@@ -1,9 +1,9 @@
 package com.xzsd.pc.menu.controller;
 
+import com.neusoft.security.client.utils.SecurityUtils;
 import com.xzsd.pc.menu.entity.MenuInfo;
 import com.xzsd.pc.menu.service.MenuService;
 import com.xzsd.pc.util.AppResponse;
-import com.xzsd.pc.util.AuthUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -37,9 +37,9 @@ public class MenuController {
     @PostMapping("addMenu")
     public AppResponse addMenu(MenuInfo menuInfo) {
         try {
-            //获取菜单id
-            String menuId = AuthUtils.getCurrentMenuId();
-            menuInfo.setCreateBy(menuId);
+            //获取用户id
+            String userId = SecurityUtils.getCurrentUserId();
+            menuInfo.setCreateUser(userId);
             AppResponse appResponse = menuService.addMenu(menuInfo);
             return appResponse;
         } catch (Exception e) {
@@ -60,9 +60,9 @@ public class MenuController {
     @PostMapping("deleteMenu")
     public AppResponse deleteMenu(String menuCode) {
         try {
-            //获取菜单id
-            String menuId = AuthUtils.getCurrentMenuId();
-            return menuService.deleteMenu(menuCode,menuId);
+            //获取用户id
+            String userId = SecurityUtils.getCurrentUserId();
+            return menuService.deleteMenu(menuCode,userId);
         } catch (Exception e) {
             logger.error("菜单删除错误", e);
             System.out.println(e.toString());
@@ -80,10 +80,10 @@ public class MenuController {
     @PostMapping("updateMenu")
     public AppResponse updateMenu(MenuInfo menuInfo) {
         try {
-            //获取菜单id
-            String menuId = AuthUtils.getCurrentMenuId();
-            menuInfo.setCreateBy(menuId);
-            menuInfo.setLastModifiedBy(menuId);
+            //获取用户id
+            String userId = SecurityUtils.getCurrentUserId();
+            menuInfo.setCreateUser(userId);
+            menuInfo.setLastModifiedBy(userId);
             return menuService.updateMenu(menuInfo);
         } catch (Exception e) {
             logger.error("修改菜单信息错误", e);

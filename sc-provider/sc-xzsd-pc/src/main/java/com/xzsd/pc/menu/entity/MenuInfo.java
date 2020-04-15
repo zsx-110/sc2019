@@ -53,7 +53,7 @@ public class MenuInfo {
     /**
      * 创建者
      */
-    private String createBy;
+    private String createUser;
     /**
      * 更新时间
      */
@@ -102,12 +102,12 @@ public class MenuInfo {
         this.gmtCreate = gmtCreate;
     }
 
-    public String getCreateBy() {
-        return createBy;
+    public String getCreateUser() {
+        return createUser;
     }
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
     }
 
     public Date getGmtModified() {

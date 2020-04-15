@@ -15,10 +15,4 @@ public class AuthUtils {
     public static String getCurrentUserId(){
         return "1";
     }
-
-    public static String getCurrentMenuId() { return "1"; }
-
-    public static String getCurrentGoodsId() {
-        return "1";
-    }
 }
