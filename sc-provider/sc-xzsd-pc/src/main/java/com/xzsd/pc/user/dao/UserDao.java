@@ -20,6 +20,13 @@ public interface UserDao {
     int countUserAcct(UserInfo userInfo);
 
     /**
+     * 获取登录者角色
+     * @param loginUserId
+     * @return
+     */
+    String getUserRole(@Param("loginUserId") String loginUserId);
+
+    /**
      * 新增用户
      * @param userInfo 用户信息
      * @return
