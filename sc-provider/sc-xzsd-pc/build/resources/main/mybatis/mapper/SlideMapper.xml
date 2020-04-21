@@ -1,0 +1,116 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.xzsd.pc.slide.dao.SlideDao">
+    <!--统计sort出现的次数-->
+    <select id="countSort" parameterType="com.xzsd.pc.slide.entity.SlideInfo" resultType="int">
+        select count(*)
+        from t_sys_slide
+        where is_delete = 0
+        and (sort = #{slideshowNum} or goods_id = #{goodsId})
+    </select>
+
+    <!--新增轮播图-->
+    <insert id="addSlide" parameterType="com.xzsd.pc.slide.entity.SlideInfo">
+        insert into t_sys_slide(
+            id,
+            goods_id,
+            image_url,
+            sort,
+            slide_status,
+            start_time,
+            end_time,
+            is_delete,
+            create_time,
+            create_user,
+            update_time,
+            version
+        )
+        values (
+            #{slideshowId},
+            #{goodsId},
+            #{imagePath},
+            #{slideshowNum},
+            1,
+            #{startTime},
+            #{endTime},
+            0,
+            now(),
+            #{createUser},
+            now(),
+            0
+        )
+    </insert>
+
+    <!--查询轮播图列表-->
+    <select id="getListSlide" parameterType="com.xzsd.pc.slide.entity.SlideInfo"
+            resultType="com.xzsd.pc.slide.entity.SlideVO">
+        select
+        id as slideshowId,
+        sort as slideshowNum,
+        image_url as slideshowPath,
+        slide_status as slideshowStateId,
+        start_time as startTime,
+        end_time as endTime,
+        version as version
+        from t_sys_slide
+        where is_delete = 0
+        <if test="slideshowStateId != null and slideshowStateId != ''">
+            and slide_status = #{slideshowStateId}
+        </if>
+        order by sort asc
+    </select>
+
+    <!--修改轮播图状态-->
+    <update id="updateSlideStatus" parameterType="java.util.List">
+        <foreach item="item" index="index" collection="slideInfoList" open="" separator=";" close="">
+            update t_sys_slide
+            set
+            slide_status = #{item.slideshowStateId},
+            update_time = now(),
+            update_user = #{item.updateUser, jdbcType=VARCHAR},
+            version = version + 1
+            <where>
+                id = #{item.slideshowId, jdbcType=VARCHAR}
+                and version = #{item.version, jdbcType=VARCHAR}
+            </where>
+        </foreach>
+    </update>
+
+    <!--删除轮播图-->
+    <update id="deleteSlide" parameterType="java.lang.String">
+        update t_sys_slide
+        set
+            is_delete = 1,
+            update_time = now(),
+            update_user = #{loginId},
+            version = version + 1
+        where id in
+        <foreach item="slideId" index="index" collection="listSlideId" open="(" separator="," close=")">
+            #{slideId}
+        </foreach>
+    </update>
+
+    <!--新增轮播图和热门商品时的商品列表-->
+    <select id="getSlideAndHotGoods" parameterType="com.xzsd.pc.goods.entity.GoodsInfo"
+            resultType="com.xzsd.pc.slide.entity.SlideAndHotGoods">
+        select
+        t1.id as goodsId,
+        t1.goods_name as goodsName,
+        t1.goods_status as goodsStateId,
+        t2.category_name as oneClassifyName,
+        t3.category_name as twoClassifyName
+        from t_goods_info t1, t_goods_category t2, t_goods_category t3
+        where t1.is_delete = 0
+        and t1.goods_status = 1
+        and t2.id = t1.category_first
+        and t3.id = t1.category_second
+        and t1.goods_status = 1
+        <if test="goodsName != null and goodsName != ''">
+            and t1.goods_name like concat('%', #{goodsName}, '%')
+        </if>
+        <if test="goodsId != null and goodsId != ''">
+            and t1.id like concat('%', #{goodsId}, '%')
+        </if>
+        order by t1.create_time desc
+    </select>
+</mapper>
