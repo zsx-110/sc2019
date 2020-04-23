@@ -15,7 +15,7 @@ import java.util.List;
 /**
  * 图片上传到腾讯云对象存储
  * @author zsx
- * @date 2020-04-21
+ * @date 2020-04-20
  */
 @RestController
 @RequestMapping("/image")

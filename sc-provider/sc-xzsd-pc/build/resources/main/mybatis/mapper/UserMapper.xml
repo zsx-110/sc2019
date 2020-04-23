@@ -1,127 +1,155 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xzsd.pc.user.dao.UserDao">
-
-    <!--统计用户账号数量-->
-    <select id="countUserAcct" parameterType="com.xzsd.pc.user.entity.UserInfo" resultType="int">
-        select count(user_acct)
+    <!--获取登录者角色-->
+    <select id="getUserRole" parameterType="java.lang.String" resultType="java.lang.String">
+        select role
         from t_sys_user
-        where is_deleted = 0
-        and user_acct = #{userAcct}
+        where user_id = #{loginUserId}
     </select>
 
-    <!--新增用户-->
-    <insert id="saveUser" parameterType="com.xzsd.pc.user.entity.UserInfo">
-        insert into t_sys_user
-        (user_code,
-         user_name,
-         user_acct,
-         user_pwd,
-         id_card,
-         sex,
-         phone,
-         email,
-         role,
-         is_deleted,
-         create_time,
-         create_user,
-         modified_time,
-         modified_user,
-         version)
-        values
-           (#{userCode},
-            #{userName},
-            #{userAcct},
-            #{userPwd},
+    <!--统计用户账号-->
+    <select id="countUserAccount" parameterType="com.xzsd.pc.user.entity.UserInfo" resultType="int">
+        select count(user_acct)
+        from t_sys_user
+        where user_acct = #{userAcct}
+        and is_delete = 0
+    </select>
+
+    <!--统计手机号-->
+    <select id="countPhone" parameterType="com.xzsd.pc.user.entity.UserInfo" resultType="int">
+        select count(phone)
+        from t_sys_user
+        where phone = #{phone}
+        and is_delete = 0
+    </select>
+
+    <!--添加用户-->
+    <insert id="addUser" parameterType="com.xzsd.pc.user.entity.UserInfo">
+        insert into
+        t_sys_user (
+        user_id,
+        user_acct,
+        user_password,
+        user_name,
+        role,
+        user_image,
+        sex,
+        phone,
+        id_card,
+        email,
+        is_delete,
+        create_time,
+        create_user,
+        update_time,
+        version
+        )
+        values (
+        #{userId},
+        #{userAcct},
+        #{userPassword},
+        #{userName},
+        #{role},
+        #{imagePath},
+        #{sex},
+        #{phone},
+        <if test="idCard != null and idCard != ''">
             #{idCard},
-            #{sex},
-            #{phone},
-            #{email},
-            #{role},
-            #{isDeleted},
-            now(),
-            #{createBy},
-            now(),
-            #{lastModifiedBy},
-            0)
+        </if>
+        <if test="idCard == null">
+            '',
+        </if>
+        <if test="mail != null and mail != ''">
+            #{mail},
+        </if>
+        <if test="mail == null">
+            '',
+        </if>
+        0,
+        now(),
+        #{createUser},
+        now(),
+        0
+        )
     </insert>
 
-    <!--用户列表-->
-    <select id="listUsersByPage" parameterType="com.xzsd.pc.user.entity.UserInfo" resultType="com.xzsd.pc.user.entity.UserInfo">
+    <!--查询用户详情-->
+    <select id="getUserInfoById" parameterType="java.lang.String" resultType="com.xzsd.pc.user.entity.UserVO">
         select
-        a.user_code userCode,
-        a.user_name userName,
-        a.user_acct userAcct,
-        a.user_pwd userPwd,
-        a.id_card idCard,
-        a.sex sex,
-        a.phone,
-        a.email,
-        a.role,
-        a.is_deleted,
-        a.create_time,
-        a.create_user,
-        a.modified_time,
-        a.modified_user,
-        a.version
-        from t_sys_user a
-        where a.is_deleted = 0
+        user_id as userId,
+        user_acct as userAcct,
+        user_name as userName,
+        sex as sex,
+        phone as phone,
+        email as mail,
+        id_card as idCard,
+        user_password as userPassword,
+        user_image as userImage,
+        role as role,
+        version as version
+        from t_sys_user
+        where user_id = #{userId}
+    </select>
+
+    <!--更新用户信息-->
+    <update id="updateUserInfo" parameterType="com.xzsd.pc.user.entity.UserInfo">
+        update t_sys_user
+        set
+            user_acct = #{userAcct},
+            user_name = #{userName},
+            sex = #{sex},
+            phone = #{phone},
+            email = #{mail},
+            id_card = #{idCard},
+            user_password = #{userPassword},
+            role = #{role},
+            update_time = now(),
+            update_user = #{updateUser},
+            version = version + 1
+        where user_id = #{userId}
+        and version = #{version}
+    </update>
+
+    <!--查询用户列表（分页）-->
+    <select id="getListUser" parameterType="com.xzsd.pc.user.entity.UserInfo"
+            resultType="com.xzsd.pc.user.entity.UserVO">
+        select
+        user_id as userId,
+        user_acct as userAcct,
+        user_name as userName,
+        user_image as userImage,
+        role as role,
+        sex as sex,
+        phone as phone,
+        email as mail,
+        id_card as idCard,
+        version as version
+        from t_sys_user
+        where is_delete = 0
+        and role in (0, 1, 2)
         <if test="userAcct != null and userAcct != ''">
-            and a.user_acct like concat('%', #{userAcct}, '%')
+            and user_acct like concat('%', #{userAcct}, '%')
         </if>
         <if test="userName != null and userName != ''">
-            and a.user_name like concat('%', #{userName}, '%')
+            and user_name like concat('%', #{userName}, '%')
         </if>
-        order by gmt_create desc
+        <if test="role != null and role != ''">
+            and role = #{role}
+        </if>
+        order by create_time desc
     </select>
 
     <!--删除用户-->
-    <update id="deleteUser" parameterType="com.xzsd.pc.user.entity.UserInfo">
+    <update id="deleteUser" parameterType="java.lang.String">
         update t_sys_user
         set
-        is_deleted = 1,
-        modified_time = now(),
-        modified_user = #{userId},
+        is_delete = 1,
+        update_time = now(),
+        update_user = #{loginUserId},
         version = version + 1
-        where user_code in
-        <foreach item="userCode" index="index" collection="listCode" open="(" separator="," close=")">
-            #{userCode}
+        where user_id in
+        <foreach item="userId" index="index" collection="listUserId" open="(" separator="," close=")">
+            #{userId}
         </foreach>
     </update>
-
-    <!--修改用户信息-->
-    <update id="updateUser" parameterType="com.xzsd.pc.user.entity.UserInfo">
-        update t_sys_user
-        set
-            user_name    = #{userName},
-            user_acct    = #{userAcct},
-            id_card      = #{idCard},
-            sex          = #{sex},
-            phone        = #{phone},
-            email        = #{email},
-            role         = #{role},
-            modified_time = now(),
-            modified_user   = #{lastModifiedBy},
-            version      = version + 1
-        where user_code = #{userCode}
-          and version = #{version}
-    </update>
-
-    <!--获取用户信息-->
-    <select id="getUserByUserCode" parameterType="java.lang.String" resultType="com.xzsd.pc.user.entity.UserInfo">
-        select
-            user_code userCode,
-            user_name userName,
-            user_acct userAcct,
-            user_pwd userPwd,
-            id_card idCard,
-            sex,
-            phone,
-            email,
-            role,
-            version
-        from t_sys_user
-        where user_code = #{userCode}
-        and is_deleted = 0
-    </select>
 </mapper>

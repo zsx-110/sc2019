@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * 图片上传
  * @author zsx
- * @date 2020-04-21
+ * @date 2020-04-20
  */
 @Service
 public class UploadService {
@@ -21,7 +21,7 @@ public class UploadService {
      * @param
      * @return
      * @author zsx
-     * @date 2020-04-21
+     * @date 2020-04-20
      */
     public AppResponse imagesUpload(List<MultipartFile> imageFile) {
         COSClientUtil cosClientUtil = new COSClientUtil();

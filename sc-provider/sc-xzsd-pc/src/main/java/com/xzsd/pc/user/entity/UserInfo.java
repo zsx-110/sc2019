@@ -1,15 +1,59 @@
 package com.xzsd.pc.user.entity;
 
-
-
-import java.util.Date;
-
 /**
  * @Description 用户实体类
  * @Author zsx
- * @Date 2020-04-10
+ * @Date 2020-03-27
  */
 public class UserInfo {
+    /**
+     * 用户id
+     */
+    private String userId;
+    /**
+     * 用户名称
+     */
+    private String userName;
+    /**
+     * 用户账号
+     */
+    private String userAcct;
+    /**
+     * 用户密码
+     */
+    private String userPassword;
+    /**
+     * 图片上传返回的路径
+     */
+    private String imagePath;
+    /**
+     * 用户头像
+     */
+    private String userImage;
+    /**
+     * 性别
+     */
+    private String sex;
+    /**
+     * 手机
+     */
+    private String phone;
+    /**
+     * 邮箱
+     */
+    private String mail;
+    /**
+     * 身份证
+     */
+    private String idCard;
+    /**
+     * 角色（0超级管理员，1管理员，2店长，3司机，4用户）
+     */
+    private String role;
+    /**
+     * 邀请码
+     */
+    private String invitationCode;
     /**
      * 页码
      */
@@ -19,88 +63,36 @@ public class UserInfo {
      */
     private int pageNum;
     /**
-     * 用户代码
-     */
-    private String userCode;
-    /**
-     * 用户名称
-     */
-    private String userName;
-    /**
-     * 用户登录名
-     */
-    private String userAcct;
-    /**
-     * 用户密码
-     */
-    private String userPwd;
-    /**
-     * 身份证号码
-     */
-    private String idCard;
-    /**
-     * 性别 0 男 1 女
-     */
-    private int sex;
-    /**
-     * 手机号码
-     */
-    private String phone;
-    /**
-     * 电子邮件
-     */
-    private String email;
-    /**
-     * 角色
-     */
-    private String role;
-    /**
      * 作废标记 0为存在，1为作废
      */
-    private int isDeleted;
-    /**
-     * 创建时间
-     */
-    private Date gmtCreate;
+    private int isDelete;
     /**
      * 创建者
      */
-    private String createBy;
+    private String createUser;
     /**
-     * 更新时间
+     * 创建时间
      */
-    private Date gmtModified;
+    private String createTime;
     /**
      * 更新者
      */
-    private String lastModifiedBy;
+    private String updateUser;
+    /**
+     * 更新时间
+     */
+    private String updateTime;
     /**
      * 版本号
      */
     private String version;
 
-    public int getPageSize() {
-        return pageSize;
+    public String getUserId() {
+        return userId;
     }
 
-    public void setPageSize(int pageSize) {
-        this.pageSize = pageSize;
-    }
-
-    public int getPageNum() {
-        return pageNum;
-    }
-
-    public void setPageNum(int pageNum) {
-        this.pageNum = pageNum;
-    }
-
-    public String getUserCode() {
-        return userCode;
-    }
-
-    public void setUserCode(String userCode) {
-        this.userCode = userCode;
+    public void setUserId(String userId) {
+        this.userId = userId;
     }
 
     public String getUserName() {
@@ -119,21 +111,36 @@ public class UserInfo {
         this.userAcct = userAcct;
     }
 
-    public String getUserPwd() {
-        return userPwd;
+    public String getUserPassword() {
+        return userPassword;
     }
 
-    public void setUserPwd(String userPwd) {
-        this.userPwd = userPwd;
+    public void setUserPassword(String userPassword) {
+        this.userPassword = userPassword;
     }
 
-
-    public String getIdCard() {
-        return idCard;
+    public String getImagePath() {
+        return imagePath;
     }
 
-    public void setIdCard(String idCard) {
-        this.idCard = idCard;
+    public void setImagePath(String imagePath) {
+        this.imagePath = imagePath;
+    }
+
+    public String getUserImage() {
+        return userImage;
+    }
+
+    public void setUserImage(String userImage) {
+        this.userImage = userImage;
+    }
+
+    public String getSex() {
+        return sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
     }
 
     public String getPhone() {
@@ -144,12 +151,20 @@ public class UserInfo {
         this.phone = phone;
     }
 
-    public String getEmail() {
-        return email;
+    public String getMail() {
+        return mail;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
+    public void setMail(String mail) {
+        this.mail = mail;
+    }
+
+    public String getIdCard() {
+        return idCard;
+    }
+
+    public void setIdCard(String idCard) {
+        this.idCard = idCard;
     }
 
     public String getRole() {
@@ -160,44 +175,68 @@ public class UserInfo {
         this.role = role;
     }
 
-    public int getIsDeleted() {
-        return isDeleted;
+    public String getInvitationCode() {
+        return invitationCode;
     }
 
-    public void setIsDeleted(int isDeleted) {
-        this.isDeleted = isDeleted;
+    public void setInvitationCode(String invitationCode) {
+        this.invitationCode = invitationCode;
     }
 
-    public Date getGmtCreate() {
-        return gmtCreate;
+    public int getPageSize() {
+        return pageSize;
     }
 
-    public void setGmtCreate(Date gmtCreate) {
-        this.gmtCreate = gmtCreate;
+    public void setPageSize(int pageSize) {
+        this.pageSize = pageSize;
     }
 
-    public String getCreateBy() {
-        return createBy;
+    public int getPageNum() {
+        return pageNum;
     }
 
-    public void setCreateBy(String createBy) {
-        this.createBy = createBy;
+    public void setPageNum(int pageNum) {
+        this.pageNum = pageNum;
     }
 
-    public Date getGmtModified() {
-        return gmtModified;
+    public int getIsDelete() {
+        return isDelete;
     }
 
-    public void setGmtModified(Date gmtModified) {
-        this.gmtModified = gmtModified;
+    public void setIsDelete(int isDelete) {
+        this.isDelete = isDelete;
     }
 
-    public String getLastModifiedBy() {
-        return lastModifiedBy;
+    public String getCreateUser() {
+        return createUser;
     }
 
-    public void setLastModifiedBy(String lastModifiedBy) {
-        this.lastModifiedBy = lastModifiedBy;
+    public void setCreateUser(String createUser) {
+        this.createUser = createUser;
+    }
+
+    public String getCreateTime() {
+        return createTime;
+    }
+
+    public void setCreateTime(String createTime) {
+        this.createTime = createTime;
+    }
+
+    public String getUpdateUser() {
+        return updateUser;
+    }
+
+    public void setUpdateUser(String updateUser) {
+        this.updateUser = updateUser;
+    }
+
+    public String getUpdateTime() {
+        return updateTime;
+    }
+
+    public void setUpdateTime(String updateTime) {
+        this.updateTime = updateTime;
     }
 
     public String getVersion() {
@@ -206,13 +245,5 @@ public class UserInfo {
 
     public void setVersion(String version) {
         this.version = version;
-    }
-
-    public int getSex() {
-        return sex;
-    }
-
-    public void setSex(int sex) {
-        this.sex = sex;
     }
 }

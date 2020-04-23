@@ -1,6 +1,8 @@
 package com.xzsd.pc.menu.dao;
 
-import com.xzsd.pc.menu.entity.MenuInfo;
+
+import com.xzsd.pc.menu.entity.Menu;
+import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
@@ -9,35 +11,64 @@ import java.util.List;
  * @ClassName MenuDao
  * @Description 菜单管理
  * @Author zsx
- * @Date 2020-04-09
+ * @Date 2020-4-8
  */
+@Mapper
 public interface MenuDao {
     /**
+     * 查询全部菜单
+     *
+     * @return
+     */
+    List<Menu> getListMenu();
+
+    /**
      * 新增菜单
-     * @param menuInfo 菜单信息
+     * @param menu
      * @return
      */
-    int addMenu(MenuInfo menuInfo);
+    int addMenu(Menu menu);
 
     /**
-     * 删除菜单信息
-     * @param listCode 选中的菜单编号集合
-     * @param menuId 更新菜单
+     * 统计是否存在相同的菜单名
+     * @param menu
      * @return
      */
-    int deleteMenu(List<String> listCode, @Param("menuId") String menuId);
+    int countMenuName(Menu menu);
 
     /**
-     * 修改菜单信息
-     * @param menuInfo 菜单信息
-     * @return 修改结果
+     * 统计是否存在相同的菜单路由
+     * @param menu
+     * @return
      */
-    int updateMenu(MenuInfo menuInfo);
+    int countMenuUrl(Menu menu);
 
     /**
-     * 查询菜单信息
-     * @param menuCode 菜单编号
-     * @return 修改结果
+     * 查询菜单详情
+     * @param menuId
+     * @return
      */
-    MenuInfo getMenuByMenuCode(@Param("menuCode") String menuCode);
+    Menu getMenuById(@Param("menuId") String menuId);
+
+    /**
+     * 更新菜单信息
+     * @param menu
+     * @return
+     */
+    int updateMenu(Menu menu);
+
+    /**
+     * 删除菜单
+     * @param menuId
+     * @param loginUserId
+     * @return
+     */
+    int deleteMenu(@Param("menuId") String menuId, @Param("loginUserId") String loginUserId);
+
+    /**
+     * 根据角色查询首页菜单显示的功能
+     * @param role
+     * @return
+     */
+    List<Menu> getPageHomeMenu(@Param("role") String role);
 }

@@ -3,7 +3,7 @@ package com.xzsd.app.upload.entity;
 /**
  * 图片上传实体类
  * @author zsx
- * @date 2020-04-21
+ * @date 2020-04-20
  */
 public class Upload {
     /**

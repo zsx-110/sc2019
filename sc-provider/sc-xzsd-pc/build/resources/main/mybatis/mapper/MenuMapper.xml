@@ -1,73 +1,116 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
 <mapper namespace="com.xzsd.pc.menu.dao.MenuDao">
-
+    <!--查询全部菜单-->
+    <select id="getListMenu" resultType="com.xzsd.pc.menu.entity.Menu">
+        select
+        menu_id as menuId,
+        menu_name as menuName,
+        version as version
+        from t_sys_menu
+        where is_delete = 0
+        order by create_time asc
+    </select>
 
     <!--新增菜单-->
-    <insert id="addMenu" parameterType="com.xzsd.pc.menu.entity.MenuInfo">
-        insert into t_sys_menu
-        (menu_code,
-         menu_name,
-         menu_route,
-         remarks,
-         is_delete,
-         create_time,
-         create_user,
-         modified_time,
-         modified_user,
-         version)
-        values
-           (#{menuCode},
-            #{menuName},
-            #{menuRoute},
-            #{Remarks},
-            #{isDeleted},
-            now(),
-            #{createBy},
-            now(),
-            #{lastModifiedBy},
-            0)
+    <insert id="addMenu" parameterType="com.xzsd.pc.menu.entity.Menu">
+        insert into t_sys_menu(
+        menu_id,
+        menu_name,
+        menu_path,
+        is_menu,
+        remark,
+        is_delete,
+        create_time,
+        create_user,
+        update_time,
+        version
+        )
+        values (
+        #{menuId},
+        #{menuName},
+        <if test="menuPath != null and menuPath != ''">
+            #{menuPath},
+        </if>
+        <if test="menuPath == null">
+            '',
+        </if>
+        '菜单',
+        <if test="menuComment != null and menuComment != ''">
+            #{menuComment},
+        </if>
+        <if test="menuComment == null">
+            '',
+        </if>
+        0,
+        now(),
+        #{createUser},
+        now(),
+        0
+        )
     </insert>
 
-    <!--删除菜单-->
-    <update id="deleteMenu" parameterType="com.xzsd.pc.menu.entity.MenuInfo">
-        update t_sys_menu
-        set
-        is_deleted = 1,
-        gmt_modified = now(),
-        last_modified_by = #{menuId},
-        version = version + 1
-        where menu_code in
-        <foreach item="menuCode" index="index" collection="listCode" open="(" separator="," close=")">
-            #{menuCode}
-        </foreach>
-    </update>
+    <!--统计是否存在相同的菜单名-->
+    <select id="countMenuName" parameterType="com.xzsd.pc.menu.entity.Menu" resultType="int">
+        select count(menu_name)
+        from t_sys_menu
+        where menu_name = #{menuName}
+        and is_delete = 0
+    </select>
 
-    <!--修改菜单信息-->
-    <update id="updateMenu" parameterType="com.xzsd.pc.menu.entity.MenuInfo">
+    <!--统计是否存在相同的菜单路由-->
+    <select id="countMenuUrl" parameterType="com.xzsd.pc.menu.entity.Menu" resultType="int">
+        select count(menu_path)
+        from t_sys_menu
+        where menu_path = #{menuPath}
+        and is_delete = 0
+    </select>
+
+    <!--查询菜单详情-->
+    <select id="getMenuById" parameterType="java.lang.String" resultType="com.xzsd.pc.menu.entity.Menu">
+        select
+        menu_id as menuId,
+        menu_name as menuName,
+        menu_path as menuPath,
+        is_menu as isMenu,
+        remark as menuComment,
+        version as version
+        from t_sys_menu
+        where menu_id = #{menuId}
+    </select>
+
+    <!--更新菜单信息-->
+    <update id="updateMenu" parameterType="com.xzsd.pc.menu.entity.Menu">
         update t_sys_menu
         set
             menu_name = #{menuName},
-            menu_route = #{menuRoute},
-            remarks = #{Remarks},
-            gmt_modified = now(),
-            last_modified_by = #{lastModifiedBy},
+            menu_path = #{menuPath},
+            remark = #{menuComment},
             version = version + 1
-        where menu_code = #{menuCode}
-          and version = #{version}
+        where menu_id = #{menuId}
+        and version = #{version}
     </update>
 
-    <!--获取菜单信息-->
-    <select id="getMenuByMenuCode" parameterType="java.lang.String" resultType="com.xzsd.pc.menu.entity.MenuInfo">
-        select
-            menu_code menuCode,
-            menu_name menuName,
-            menu_route menuRoute,
-            remarks Remarks,
-            version
-        from t_sys_menu
-        where menu_code = #{menuCode}
-        and is_deleted = 0
-    </select>
+    <!--删除菜单-->
+    <update id="deleteMenu" parameterType="java.lang.String">
+        update t_sys_menu
+        set
+            is_delete = 1,
+            update_user = #{loginUserId},
+            update_time = now(),
+            version = version + 1
+        where menu_id = #{menuId}
+    </update>
 
+    <!--根据角色查询首页菜单显示的功能-->
+    <select id="getPageHomeMenu" parameterType="java.lang.String" resultType="com.xzsd.pc.menu.entity.Menu">
+        select
+        menu_id as menuId,
+        menu_name as menuName
+        from t_sys_menu
+        where is_delete = 0
+        <if test="role == 2">
+            and is_manager = 1
+        </if>
+    </select>
 </mapper>
