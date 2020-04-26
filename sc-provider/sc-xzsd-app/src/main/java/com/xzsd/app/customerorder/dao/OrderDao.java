@@ -42,6 +42,14 @@ public interface OrderDao {
     int updateGoodsInventory(@Param("goodsInfoList") List<GoodsInfo> goodsInfoList);
 
     /**
+     * 删除购物车
+     * @param shopCartIdList
+     * @param userId
+     * @return
+     */
+    int deleteShoppingCard(@Param("shopCartIdList") List<String> shopCartIdList, @Param("userId") String userId);
+
+    /**
      * 查询订单列表（分页）
      * @param orderInfo
      * @return
@@ -61,6 +69,8 @@ public interface OrderDao {
      * @return
      */
     int updateOrderStatus(OrderInfo orderInfo);
+
+
 
     /**
      * 查询订单详情
@@ -103,4 +113,5 @@ public interface OrderDao {
      * @return
      */
     int updateGoodsRank(@Param("listGoods") List<GoodsInfo> listGoods);
+
 }
